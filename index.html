@@ -781,6 +781,53 @@
       .reveal-block, .service-item{ transition: none; filter:none; }
     }
 
+    /* ===== Cookie banner ===== */
+    .cookie-banner{
+      position: fixed;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 10000;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: rgba(7,16,34,.95);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .cookie-banner p{
+      margin: 0;
+      color: rgba(234,242,255,.92);
+      font-size: .95rem;
+      line-height: 1.45;
+      flex: 1 1 300px;
+    }
+    .cookie-banner a{
+      color: var(--primary-2);
+      text-decoration: none;
+    }
+    .cookie-banner a:hover{ text-decoration: underline; }
+    .cookie-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    @media (max-width: 576px){
+      .cookie-banner{
+        left: .75rem;
+        right: .75rem;
+      }
+      .cookie-actions{
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+
 
     /* ===== Executive Hook: Diagnóstico Express ===== */
 .exec-hook{
@@ -1995,6 +2042,18 @@
     </div>
   </footer>
 
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+    <p>
+      Usamos cookies para mejorar tu experiencia y analizar el uso del sitio.
+      Puedes aceptar o rechazar. Consulta nuestro
+      <a href="aviso-de-privacidad.html">Aviso de Privacidad</a>.
+    </p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-primary btn-sm" id="cookie-accept">Aceptar</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="cookie-reject">Rechazar</button>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -2023,6 +2082,28 @@
     }, { threshold: 0.14 });
 
     allReveal.forEach(el => io.observe(el));
+  </script>
+  <script>
+    (function () {
+      const banner = document.getElementById("cookie-banner");
+      const acceptBtn = document.getElementById("cookie-accept");
+      const rejectBtn = document.getElementById("cookie-reject");
+
+      if (!banner || !acceptBtn || !rejectBtn) return;
+
+      const consent = localStorage.getItem("cookieConsent");
+      if (!consent) {
+        banner.hidden = false;
+      }
+
+      const setConsent = (value) => {
+        localStorage.setItem("cookieConsent", value);
+        banner.hidden = true;
+      };
+
+      acceptBtn.addEventListener("click", () => setConsent("accepted"));
+      rejectBtn.addEventListener("click", () => setConsent("rejected"));
+    })();
   </script>
   <script>
   // ===== Executive Hook: Diagnóstico Express (No técnico / Directivo) =====
