@@ -1,0 +1,2336 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Compropolis - Protección de Datos (Identidad Digital) y Ciberseguridad." />
+  <title>Compropolis | Protección de Datos y Ciberseguridad</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+
+
+  <style>
+    :root{
+      --bg-900:#071022;
+      --panel: rgba(10,24,51,.62);
+      --border: rgba(255,255,255,.10);
+      --text: #eaf2ff;
+      --muted:#b7c7e6;
+      --primary:#4e7dff;
+      --primary-2:#5ad7ff;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+      --glow: 0 0 18px rgba(255,255,255,.55);
+      --glow2: 0 0 22px rgba(90,215,255,.28);
+      --lift: translateY(-4px);
+    }
+
+    html{ scroll-behavior:smooth; overflow-x: hidden; }
+    body{
+      background:
+        radial-gradient(900px 600px at 10% 0%, rgba(78,125,255,.16), transparent 60%),
+        radial-gradient(900px 600px at 100% 20%, rgba(90,215,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-900), #050814 80%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      overflow-x: hidden;
+    }
+
+    /* ===== Global helpers ===== */
+    .text-muted-2{ color: var(--muted) !important; }
+    section{ padding: 4.25rem 0; }
+    .container{ max-width: 1140px; }
+
+    /* ===== Fancy link underline ===== */
+    .link-underline{
+      position: relative;
+      text-decoration: none;
+      color: rgba(234,242,255,.90);
+    }
+    .link-underline::after{
+      content:"";
+      position:absolute;
+      left:0; bottom:-3px;
+      width:0; height:2px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      transition: width .25s ease;
+    }
+    .link-underline:hover{ color:#fff; }
+    .link-underline:hover::after{ width:100%; }
+
+    /* ===== Topbar ===== */
+    .topbar{
+      background: rgba(5,8,20,.55);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      font-size: .92rem;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar{
+      background: rgba(7,16,34,.55);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+    .navbar-brand{
+      font-weight: 950;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+    }
+    .nav-link{
+      color: rgba(234,242,255,.88) !important;
+      font-weight: 750;
+      position: relative;
+    }
+    .nav-link::after{
+      content:"";
+      position:absolute;
+      left: .5rem; right: .5rem;
+      bottom: .35rem;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .22s ease;
+      border-radius: 999px;
+      opacity: .9;
+    }
+    .nav-link:hover{ color:#fff !important; }
+    .nav-link:hover::after{ transform: scaleX(1); }
+
+    .btn-ghost{
+      border: 1px solid rgba(255,255,255,.25);
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn-ghost:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.35);
+      transform: var(--lift);
+    }
+    .btn-primary{
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      border: 0;
+      box-shadow: 0 12px 26px rgba(78,125,255,.18);
+      transition: transform .2s ease, filter .2s ease;
+    }
+    .btn-primary:hover{ filter: brightness(1.05); transform: var(--lift); }
+
+    /* ===== Panel / Cards ===== */
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(700px 300px at 15% 10%, rgba(90,215,255,.10), transparent 62%),
+                  radial-gradient(700px 300px at 90% 30%, rgba(78,125,255,.12), transparent 62%);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .panel > *{ position: relative; z-index: 2; }
+
+    .card-soft{
+      background: rgba(10,24,51,.45);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      height: 100%;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-soft::after{
+      content:"";
+      position:absolute;
+      top:-40%; left:-40%;
+      width: 70%; height: 180%;
+      background: linear-gradient(90deg, transparent, rgba(90,215,255,.16), transparent);
+      transform: rotate(10deg);
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+    .card-soft:hover{
+      transform: var(--lift);
+      border-color: rgba(90,215,255,.22);
+      box-shadow: 0 18px 44px rgba(0,0,0,.50);
+    }
+    .card-soft:hover::after{
+      opacity: 1;
+      animation: scan 1.15s ease-in-out;
+    }
+
+    /* ===== Hero ===== */
+    .hero{ position: relative; min-height: 88vh; overflow: hidden; }
+    .hero .swiper{ width: 100%; min-height: 88vh; height: auto; }
+    .hero-slide{
+      position: relative;
+      min-height: 88vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+.hero-slide::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: var(--bg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: scale(1.03);
+  filter: contrast(1.05) saturate(1.05);
+  z-index: -1;
+}
+
+.hero-slide::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5,8,20,.78),
+      rgba(5,8,20,.55)
+    ),
+    radial-gradient(
+      600px 320px at 50% 35%,
+      rgba(78,125,255,.38),
+      transparent 60%
+    );
+  z-index: -1;
+}
+
+ .hero-content{
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(5.5rem, 10vh, 8rem);
+}
+
+
+
+/* Slide solo logo */
+/* Fondo exclusivo slide logo */
+/* ===============================
+   SLIDE SOLO LOGO (RESPONSIVE)
+   =============================== */
+
+/* Fondo limpio para logo azul */
+.hero-logo-only{
+  display: grid;
+  place-items: center;
+  min-height: 88vh;
+  padding: 4rem 1rem;
+  background:
+    radial-gradient(600px 300px at 50% 40%, rgba(90,215,255,.18), transparent 65%),
+    radial-gradient(800px 400px at 20% 20%, rgba(78,125,255,.14), transparent 60%),
+    linear-gradient(180deg, #071022, #050814 85%);
+}
+
+/* Quita overlays del hero SOLO en esta slide */
+.hero-slide.hero-logo-only::before,
+.hero-slide.hero-logo-only::after{
+  display: none;
+}
+
+/* Logo principal */
+.hero-logo-only img{
+  width: clamp(220px, 32vw, 420px);
+  max-width: 100%;
+  opacity: .96;
+  filter:
+    drop-shadow(0 18px 38px rgba(0,0,0,.55))
+    drop-shadow(0 0 22px rgba(90,215,255,.28));
+}
+
+/* Tablet */
+@media (max-width: 768px){
+  .hero-logo-only{
+    min-height: 80vh;
+    padding: 3rem 1rem;
+  }
+}
+
+/* Móvil */
+@media (max-width: 576px){
+  .hero-logo-only img{
+    width: clamp(180px, 70vw, 300px);
+  }
+}
+
+/* ===============================
+   FIX SLIDE 2 EN MÓVIL
+   =============================== */
+
+@media (max-width: 576px){
+
+  /* Reduce padding del hero solo en móvil */
+  .hero-content{
+    padding-top: 5.2rem;
+  }
+
+  /* Logo de letras más equilibrado */
+  .hero-content img.hero-logo,
+  .hero-content img[src*="letras"]{
+    width: 85%;
+    max-width: 260px;
+    margin: .75rem auto 1rem;
+    display: block;
+  }
+
+  /* Texto más compacto y legible */
+.hero-sub{
+  max-width: 64ch;
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: rgba(234,242,255,.9);
+}
+
+
+  /* Botones uno debajo del otro */
+  .hero-content .btn{
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* Oculta features inferiores en móvil (CLAVE) */
+  .hero-bottom{
+    display: none;
+  }
+}
+
+
+
+
+.hero-logo-only img{
+  width: clamp(220px, 32vw, 420px);
+  opacity: .95;
+  filter: drop-shadow(0 16px 34px rgba(0,0,0,.55));
+}
+.hero-logo{
+  width: clamp(240px, 36vw, 480px); /* MÁS GRANDE */
+  max-width: 100%;
+  margin-bottom: 0.5rem;
+  opacity: .99;
+  filter:
+    drop-shadow(0 18px 38px rgba(0,0,0,.55))
+    drop-shadow(0 0 22px rgba(90,215,255,.28));
+}
+
+
+
+
+@media (max-width: 576px){
+  .hero-logo{
+    width: 85vw;      /* casi ancho completo */
+    max-width: 360px; /* límite para no romper */
+    margin-bottom: 1.2rem;
+  }
+}
+
+
+    .eyebrow{
+      text-transform: uppercase;
+      letter-spacing: .42rem;
+      font-weight: 950;
+      color: rgba(90,215,255,.92);
+      font-size: .9rem;
+    }
+    
+.hero-title{
+  font-size: clamp(2.6rem, 5.2vw, 4.3rem);
+  font-weight: 980;
+  letter-spacing: .06rem;
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+
+.hero-sub {
+  max-width: 100ch;
+  /* El primer número es el margen superior/inferior, el segundo es el lateral */
+  margin: 0.5rem auto; 
+  color: rgba(234,242,255,.88);
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.hero-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.5rem; /* Antes estaba en 2.2rem, ahora está más pegado al borde */
+  z-index: 3;
+}
+    .feature-row{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+    .feature-item{
+      display:flex;
+      gap: 1rem;
+      align-items:flex-start;
+      padding: 1.2rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(7,16,34,.45);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      height: 100%;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-item::after{
+      content:"";
+      position:absolute;
+      inset: -2px;
+      border-radius: var(--radius);
+      background: radial-gradient(700px 240px at 20% 10%, rgba(90,215,255,.12), transparent 62%),
+                  radial-gradient(700px 240px at 90% 30%, rgba(78,125,255,.12), transparent 62%);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .feature-item > *{ position: relative; z-index: 2; }
+    .feature-item:hover{
+      transform: var(--lift);
+      border-color: rgba(90,215,255,.22);
+      box-shadow: 0 18px 44px rgba(0,0,0,.50);
+    }
+    .feature-ico{
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items:center;
+      border: 1px solid rgba(90,215,255,.25);
+      background: rgba(90,215,255,.10);
+      flex: 0 0 auto;
+      box-shadow: 0 10px 22px rgba(90,215,255,.10);
+    }
+    .feature-item h3{ font-size: 1.08rem; font-weight: 980; margin: 0 0 .25rem; }
+    .feature-item p{ margin: 0; color: rgba(234,242,255,.82); font-size: .95rem; line-height: 1.45; }
+
+    @media (max-width: 991.98px){
+      .hero .swiper, .hero-slide{ min-height: 92vh; height: auto; }
+      .feature-row{ grid-template-columns: 1fr; }
+      .hero-bottom{ position: static; padding: 2rem 0 3rem; }
+      .hero-content{ padding-top: 7.5rem; }
+    }
+
+    /* Swiper */
+    .swiper-button-prev, .swiper-button-next{ color: rgba(255,255,255,.85); }
+    .swiper-button-prev:hover, .swiper-button-next:hover{ color:#fff; }
+    .swiper-pagination-bullet{ background: rgba(255,255,255,.35); opacity: 1; }
+    .swiper-pagination-bullet-active{ background: var(--primary-2); }
+
+    /* ===== Tech section background ===== */
+    .tech-bg{
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .tech-bg::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 450px at 20% 10%, rgba(90,215,255,.12), transparent 60%),
+        radial-gradient(900px 450px at 90% 30%, rgba(78,125,255,.16), transparent 60%),
+        url("https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=2200&q=80")
+        center/cover no-repeat;
+      opacity:.22;
+      filter: contrast(1.05) saturate(1.05);
+      transform: scale(1.06);
+    }
+    .tech-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(7,16,34,.94), rgba(7,16,34,.80)),
+        radial-gradient(900px 350px at 50% 10%, rgba(255,255,255,.06), transparent 60%);
+    }
+    .tech-content{ position: relative; z-index: 2; }
+
+    /* ===== Titles ===== */
+    .glow-title{
+      font-weight: 990;
+      text-transform: uppercase;
+      letter-spacing: .08rem;
+      text-shadow: var(--glow);
+    }
+    .title-line{
+      width: 86px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      margin: .85rem auto 0;
+      opacity: .9;
+    }
+    .quienes-wrap{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14,30,60,.88),
+      rgba(10,22,45,.92)
+    );
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 28px;
+  padding: 3.5rem 2.5rem 4rem;
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+
+    /* ===== White card (Mission/Vision) ===== */
+.white-card{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.94),
+      rgba(245,248,255,.88)
+    );
+  color: #0b1b2c;
+  border-radius: 20px;
+  padding: 1.65rem;
+  border: 1px solid rgba(0,40,90,.10);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.75);
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.white-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background: linear-gradient(
+    90deg,
+    #4e7dff,
+    #5ad7ff
+  );
+}
+
+    .white-card::after{
+      content:"";
+      position:absolute;
+      top:-50%; left:-40%;
+      width: 70%; height: 220%;
+      background: linear-gradient(90deg, transparent, rgba(78,125,255,.14), transparent);
+      transform: rotate(12deg);
+      opacity: 0;
+    }
+    .white-card:hover{
+      transform: var(--lift);
+      box-shadow: 0 22px 52px rgba(0,0,0,.50);
+    }
+    .white-card:hover::after{
+      opacity: 1;
+      animation: scan 1.25s ease-in-out;
+    }
+    .white-card h5{
+      font-weight: 980;
+      text-transform: uppercase;
+      font-size: .98rem;
+      margin-top: .2rem;
+      letter-spacing: .06rem;
+    }
+    .white-card p{
+      margin-bottom: .85rem;
+      line-height: 1.6;
+      font-weight: 650;
+      color: rgba(11,27,44,.86);
+    }
+
+    /* ===== PRODUCTS / SERVICES bars ===== */
+    .services-hero{
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(800px 350px at 15% 10%, rgba(90,215,255,.18), transparent 60%),
+        radial-gradient(900px 420px at 90% 30%, rgba(78,125,255,.18), transparent 58%),
+        linear-gradient(180deg, rgba(7,16,34,.65), rgba(7,16,34,.45));
+      box-shadow: var(--shadow);
+      transition: transform .22s ease, border-color .22s ease;
+    }
+    .services-hero:hover{
+      transform: translateY(-2px);
+      border-color: rgba(90,215,255,.22);
+    }
+    .services-hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2200&q=80")
+        center/cover no-repeat;
+      opacity:.16;
+      filter: saturate(1.1) contrast(1.05);
+      transform: scale(1.04);
+    }
+    .services-hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25)),
+        radial-gradient(600px 300px at 50% 15%, rgba(90,215,255,.16), transparent 62%);
+    }
+    .services-wrap{ position: relative; z-index: 2; padding: 2.35rem 1.8rem; }
+    .services-title{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: .85rem;
+      margin: 0 0 1.35rem;
+      font-weight: 990;
+      letter-spacing: .08rem;
+      text-transform: uppercase;
+    }
+    .services-title .badge-icon{
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 12px 26px rgba(0,0,0,.35);
+      transition: transform .2s ease;
+    }
+    .services-hero:hover .badge-icon{ transform: var(--lift); }
+    .services-title small{
+      display:block;
+      margin-top:.15rem;
+      font-size:.86rem;
+      color: rgba(234,242,255,.70);
+      letter-spacing:.35rem;
+      text-transform: uppercase;
+      text-align:center;
+    }
+    .service-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: .72rem;
+    }
+    .service-item{
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid rgba(90,215,255,.20);
+      background: rgba(7,16,34,.44);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .55s ease, transform .55s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .service-item.is-visible{ opacity: 1; transform: translateY(0); }
+    .service-item::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, rgba(90,215,255,.22), rgba(78,125,255,.22));
+      opacity: .55;
+      filter: blur(10px);
+      pointer-events:none;
+    }
+    .service-bar{
+      position: relative;
+      display:flex;
+      align-items:flex-start;
+      gap: .9rem;
+      padding: .95rem 1.05rem;
+      border-radius: 14px;
+      background: linear-gradient(90deg, rgba(90,215,255,.10), rgba(78,125,255,.08));
+    }
+    .service-bar::after{
+      content:"";
+      position:absolute;
+      top:-30%;
+      left:-40%;
+      width: 55%;
+      height: 160%;
+      background: linear-gradient(90deg, transparent, rgba(90,215,255,.22), transparent);
+      transform: rotate(12deg);
+      opacity: 0;
+      pointer-events:none;
+    }
+    .service-item:hover{
+      border-color: rgba(90,215,255,.33);
+      box-shadow: 0 18px 44px rgba(0,0,0,.52);
+      transform: translateY(-2px);
+    }
+    .service-item:hover .service-bar::after{ animation: scan 1.15s ease-in-out; }
+    .service-ico{
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      background: rgba(90,215,255,.12);
+      border: 1px solid rgba(90,215,255,.28);
+      box-shadow: 0 10px 22px rgba(90,215,255,.10);
+      flex: 0 0 auto;
+      transition: transform .2s ease;
+      margin-top: .1rem;
+    }
+    .service-item:hover .service-ico{ transform: var(--lift); }
+    .service-text{
+      font-weight: 900;
+      color: rgba(234,242,255,.94);
+      line-height: 1.25;
+      font-size: 1rem;
+    }
+    .service-desc{
+      margin: .25rem 0 0;
+      color: rgba(234,242,255,.78);
+      font-weight: 650;
+      line-height: 1.45;
+      font-size: .93rem;
+    }
+
+    /* ===== Scroll reveal (fade + blur) ===== */
+    .reveal-block{
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(6px);
+      transition: opacity .75s ease, transform .75s ease, filter .75s ease;
+    }
+    .reveal-block.is-visible{
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    /* ===== Scan animation ===== */
+    @keyframes scan{
+      0%{ opacity:0; transform: translateX(-20%) rotate(12deg); }
+      20%{ opacity:.9; }
+      100%{ opacity:0; transform: translateX(260%) rotate(12deg); }
+    }
+
+    /* ===== WhatsApp floating button ===== */
+    .wa-float{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(180deg, #25D366, #128C7E);
+      box-shadow: 0 16px 34px rgba(0,0,0,.45);
+      color: #fff;
+      text-decoration:none;
+      transition: transform .2s ease, filter .2s ease;
+    }
+    .wa-float:hover{ transform: translateY(-4px) scale(1.02); filter: brightness(1.05); }
+
+    /* Footer */
+    footer{
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding: 2.3rem 0;
+      color: rgba(234,242,255,.78);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      .btn-primary:hover, .btn-ghost:hover,
+      .card-soft:hover, .services-hero:hover,
+      .service-item:hover, .wa-float:hover,
+      .white-card:hover, .feature-item:hover{
+        transform:none;
+      }
+      .service-item:hover .service-bar::after,
+      .card-soft:hover::after,
+      .white-card:hover::after{ animation: none; opacity:0; }
+      .reveal-block, .service-item{ transition: none; filter:none; }
+    }
+
+
+    /* ===== Executive Hook: Diagnóstico Express ===== */
+.exec-hook{
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(7,16,34,.45);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.exec-hook::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(900px 300px at 15% 10%, rgba(90,215,255,.18), transparent 60%),
+    radial-gradient(900px 340px at 85% 30%, rgba(78,125,255,.18), transparent 58%);
+  opacity:.9;
+  pointer-events:none;
+}
+.exec-hook > *{ position: relative; z-index: 2; }
+
+.exec-hook-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 0;
+}
+.exec-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+  padding:.45rem .8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(90,215,255,.28);
+  background: rgba(90,215,255,.10);
+  color: rgba(234,242,255,.92);
+  font-weight: 850;
+  letter-spacing: .08rem;
+  text-transform: uppercase;
+  font-size:.8rem;
+  box-shadow: 0 14px 30px rgba(0,0,0,.25);
+}
+
+.exec-progress{
+  width: 170px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  overflow:hidden;
+}
+.exec-progress > span{
+  display:block;
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+  border-radius: 999px;
+  transition: width .35s ease;
+  box-shadow: 0 0 18px rgba(90,215,255,.25);
+}
+
+.exec-hook-body{
+  padding: 1rem 1.25rem 1.25rem;
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 1.25rem;
+}
+@media (max-width: 991.98px){
+  .exec-hook-body{ grid-template-columns: 1fr; }
+  .exec-progress{ width: 140px; }
+}
+
+.exec-q{
+  font-weight: 980;
+  letter-spacing: .02rem;
+  line-height: 1.35;
+  margin-bottom: .75rem;
+  font-size: 1.05rem;
+}
+.exec-choices{
+  display:flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.choice-btn{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: rgba(234,242,255,.92);
+  padding: .6rem .85rem;
+  border-radius: 999px;
+  font-weight: 850;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.choice-btn:hover{
+  transform: translateY(-2px);
+  border-color: rgba(90,215,255,.28);
+  background: rgba(255,255,255,.10);
+}
+.choice-btn.is-selected{
+  border-color: rgba(90,215,255,.35);
+  background: linear-gradient(90deg, rgba(78,125,255,.22), rgba(90,215,255,.16));
+  box-shadow: 0 14px 30px rgba(0,0,0,.35);
+}
+
+.exec-side{
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  background: rgba(10,24,51,.38);
+  padding: 1rem;
+  box-shadow: 0 16px 34px rgba(0,0,0,.35);
+}
+
+.pill-values{
+  display:inline-block;
+  padding:.6rem 1.4rem;
+  border-radius:999px;
+  background: rgba(90,215,255,.12);
+  color:#dff6ff;
+  font-weight:900;
+  letter-spacing:.28rem;
+  font-size:.85rem;
+  border:1px solid rgba(90,215,255,.35);
+  backdrop-filter: blur(6px);
+}
+
+.values-sub{
+  margin-top:.6rem;
+  font-size:.9rem;
+  color: rgba(234,242,255,.75);
+}
+
+.exec-kpi{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: .75rem;
+  padding: .75rem .85rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(7,16,34,.42);
+}
+.exec-kpi strong{ font-weight: 980; letter-spacing:.03rem; }
+.exec-pill{
+  padding:.25rem .6rem;
+  border-radius: 999px;
+  font-weight: 950;
+  letter-spacing:.05rem;
+  text-transform: uppercase;
+  font-size: .78rem;
+}
+.pill-low{ background: rgba(46, 204, 113, .18); border:1px solid rgba(46,204,113,.35); color:#d9ffe8; }
+.pill-mid{ background: rgba(241, 196, 15, .18); border:1px solid rgba(241,196,15,.35); color:#fff6d8; }
+.pill-high{ background: rgba(231, 76, 60, .18); border:1px solid rgba(231,76,60,.35); color:#ffe3e0; }
+
+.exec-reco{
+  margin-top: .9rem;
+  color: rgba(234,242,255,.82);
+  line-height: 1.55;
+  font-weight: 650;
+  font-size: .95rem;
+}
+.exec-actions{
+  margin-top: 1rem;
+  display:flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.exec-actions .btn{ font-weight: 900; }
+.exec-mini{
+  margin-top: .6rem;
+  color: rgba(234,242,255,.70);
+  font-size: .85rem;
+  line-height: 1.5;
+}
+
+.exec-nav{
+  display:flex;
+  gap:.6rem;
+  margin-top: .9rem;
+}
+.exec-nav button{
+  border-radius: 12px;
+  padding: .55rem .75rem;
+}
+/* ===== MARCAS / LOGOS ===== */
+.brand-item{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height: 110px;
+  padding: 1rem;
+  filter: grayscale(100%) brightness(1.05);
+  opacity: .75;
+  transition: filter .25s ease, opacity .25s ease, transform .25s ease;
+}
+
+.brand-item img{
+  max-height: 70px;
+  max-width: 160px;
+  object-fit: contain;
+}
+
+.brand-item:hover{
+  filter: grayscale(0%) brightness(1.1);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* ===== NOMBRE DE MARCA ===== */
+.brand-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap: .45rem;
+  text-align:center;
+}
+
+.brand-name{
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .06rem;
+  text-transform: uppercase;
+  color: rgba(234,242,255,.65);
+  transition: color .25s ease, transform .25s ease;
+}
+
+.brand-item:hover .brand-name{
+  color: rgba(234,242,255,.92);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 576px){
+  .exec-side{
+    margin-top: 1rem;
+  }
+}
+
+
+/* ===== SECUENCIA MISIÓN / VISIÓN ===== */
+.reveal-seq{
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(6px);
+  transition: opacity .7s ease, transform .7s ease, filter .7s ease;
+}
+.reveal-seq.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* ===== LOGO QUIÉNES SOMOS ===== */
+.quienes-logo{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.6rem;
+}
+
+.quienes-logo img{
+  width: clamp(400px, 22vw, 220px);
+  opacity: .95;
+  filter:
+    drop-shadow(0 14px 32px rgba(0,0,0,.55))
+    drop-shadow(0 0 18px rgba(90,215,255,.28));
+}
+
+/* Móvil */
+@media (max-width: 576px){
+  .quienes-logo img{
+    width: 160px;
+  }
+}
+
+/* ===== HERO 360 ===== */
+.hero-360{
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
+  font-weight: 980;
+  letter-spacing: .08rem;
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+  color: #dffcff;
+  text-shadow:
+    0 0 14px rgba(90,215,255,.45),
+    0 10px 40px rgba(0,0,0,.65);
+}
+
+.hero-360 span{
+  color: #5ad7ff;
+  text-shadow:
+    0 0 22px rgba(90,215,255,.75),
+    0 14px 50px rgba(0,0,0,.65);
+}
+
+/* Móvil */
+@media (max-width: 576px){
+  .hero-360{
+    font-size: 2.4rem;
+    line-height: 1.15;
+  }
+}
+
+/* ===== HERO CTA FIX ===== */
+.hero-cta{
+  margin-top: 1.2rem;
+  position: relative;
+  z-index: 3;
+}
+
+/* Tablet */
+@media (max-width: 991.98px){
+  .hero-cta{
+    margin-top: .9rem;
+  }
+}
+
+/* Móvil */
+@media (max-width: 576px){
+  .hero-cta{
+    margin-top: .75rem;
+  }
+}
+
+
+  </style>
+
+
+</head>
+
+<body>
+  <a class="wa-float" href="https://wa.me/525575351237" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp fa-lg"></i>
+  </a>
+
+  <div class="topbar py-2">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+      <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center justify-content-md-start">
+        <span class="d-inline-flex align-items-center gap-2">
+          <i class="fa-solid fa-location-dot"></i>
+          <span class="text-muted-2">México</span>
+        </span>
+        <a class="link-underline d-inline-flex align-items-center gap-2" href="tel:+525575351237">
+          <i class="fa-solid fa-phone"></i>
+          <span>+52 55 753 512 37</span>
+        </a>
+        <a class="link-underline d-inline-flex align-items-center gap-2" href="mailto:contacto@compropolis.mx">
+          <i class="fa-solid fa-envelope"></i>
+          <span>info@compropolis.mx</span>
+        </a>
+      </div>
+
+      <div class="d-flex gap-3 align-items-center justify-content-center justify-content-md-end">
+        <a class="link-underline" aria-label="Facebook" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a class="link-underline" aria-label="X" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a class="link-underline" aria-label="YouTube" href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a class="link-underline" aria-label="LinkedIn" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#top" style="display:flex; align-items:center; letter-spacing: 2px;">
+        <img src="logo.png" alt="Logo" width="30" height="30" class="me-2">
+        CO̱MPR◎PO̱LIS
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav mx-auto gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#top">Inicio</a></li>
+<li class="nav-item"><a class="nav-link" href="#quienes-somos">Quiénes somos</a></li>
+
+          <li class="nav-item"><a class="nav-link" href="#resultados">Impacto en el negocio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#productos">Servicios</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+        </ul>
+
+        <div class="d-flex gap-2 mt-3 mt-lg-0 justify-content-center">
+          <a class="btn btn-ghost" href="#contacto">Solicitar diagnóstico</a>
+         
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="swiper hero-swiper">
+      <div class="swiper-wrapper">
+
+
+
+        <div class="swiper-slide">
+          <div class="hero-slide" style="--bg:url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2400&q=80');">
+ 
+
+           <div class="container hero-content reveal-block">
+
+
+<h1 class="hero-title hero-360">
+  CIBERSEGURIDAD <span>360°</span>
+</h1>
+<p class="hero-sub">
+  Protegemos información y operaciones con un enfoque integral: personas, procesos y tecnología,
+  para reducir riesgos y fortalecer la continuidad del negocio.
+</p>
+<div class="d-flex flex-wrap gap-2 justify-content-center hero-cta">
+  <a href="#productos" class="btn btn-primary btn-lg">Ver servicios</a>
+</div>
+
+</div>
+
+
+            <div class="hero-bottom">
+              <div class="container">
+                <div class="feature-row">
+                  <div class="feature-item reveal-block">
+                    <div class="feature-ico"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                      <h3>Reducción de riesgo</h3>
+                      <p>Disminuimos exposición, incidentes y costos operativos.</p>
+                    </div>
+                  </div>
+
+                  <div class="feature-item reveal-block">
+                    <div class="feature-ico"><i class="fa-solid fa-briefcase"></i></div>
+                    <div>
+                      <h3>Continuidad del negocio</h3>
+                      <p>Planes y controles para mantener tu operación disponible.</p>
+                    </div>
+                  </div>
+
+                  <div class="feature-item reveal-block">
+                    <div class="feature-ico"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div>
+                      <h3>Cumplimiento y confianza</h3>
+                      <p>Apoyo en políticas, evidencias y buenas prácticas.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="hero-slide" style="--bg:url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=2400&q=80');">
+            <div class="container hero-content reveal-block">
+              <div class="eyebrow">ENFOQUE EJECUTIVO</div>
+              <h2 class="hero-title">Decisiones claras</h2>
+              <p class="hero-sub">
+                Información y acciones concretas para dirección, administración y operación: qué proteger, por qué y cómo priorizar.
+              </p>
+              <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+                <a href="#resultados" class="btn btn-primary btn-lg">Ver beneficios</a>
+                <a href="#contacto" class="btn btn-ghost btn-lg">Agendar diagnóstico</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="swiper-button-prev" aria-label="Anterior"></div>
+      <div class="swiper-button-next" aria-label="Siguiente"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </header>
+
+  <!-- QUIÉNES SOMOS -->
+   <div id="quienes-somos" style="position:relative; top:-110px;"></div>
+<!-- QUIÉNES SOMOS -->
+<div id="quienes-somos" style="position:relative; top:-110px;"></div>
+
+<section id="quienes" class="tech-bg">
+  <div class="container tech-content">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 reveal-block">
+
+        <h2 class="glow-title text-center mb-2">QUIÉNES SOMOS</h2>
+        <div class="title-line"></div>
+
+        <div class="panel p-4 mt-4">
+
+            <!-- LOGO QUIÉNES SOMOS -->
+  <div class="quienes-logo">
+    <img src="logo2026.png" alt="Compropolis Logo">
+  </div>
+
+          <!-- TEXTO PRINCIPAL -->
+          <p class="mb-3" style="font-weight:760; line-height:1.8;">
+            En <span style="color:rgba(90,215,255,.95); font-weight:950;">Compropolis</span> ayudamos a organizaciones a
+            <span style="color:rgba(90,215,255,.95); font-weight:950;">proteger datos</span>, reducir riesgos y fortalecer la operación.
+            Nuestro enfoque combina consultoría, implementación y acompañamiento.
+          </p>
+
+          <p class="mb-4" style="font-weight:700; line-height:1.85;">
+            Trabajamos con equipos directivos y administrativos para definir prioridades,
+            mejorar controles y generar confianza con clientes, socios y reguladores,
+            sin complejidad técnica innecesaria.
+          </p>
+
+          <!-- HIGHLIGHTS -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div class="card-soft">
+                <div class="d-flex align-items-start gap-3">
+                  <div class="feature-ico" style="width:48px;height:48px;">
+                    <i class="fa-solid fa-award"></i>
+                  </div>
+                  <div>
+                 <div style="font-weight:980;">
+  <span class="counter" data-target="13">0</span> años
+</div>
+
+                    <div class="text-muted-2" style="font-weight:650;">
+                      Experiencia en protección de datos
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-soft">
+                <div class="d-flex align-items-start gap-3">
+                  <div class="feature-ico" style="width:48px;height:48px;">
+                    <i class="fa-solid fa-diagram-project"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight:980;">Enfoque integral</div>
+                    <div class="text-muted-2" style="font-weight:650;">
+                      Personas • Procesos • Tecnología
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-soft">
+                <div class="d-flex align-items-start gap-3">
+                  <div class="feature-ico" style="width:48px;height:48px;">
+                    <i class="fa-solid fa-handshake"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight:980;">Acompañamiento</div>
+                    <div class="text-muted-2" style="font-weight:650;">
+                      De diagnóstico a resultados medibles
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DIVIDER DE VALORES -->
+          <div class="text-center my-4">
+            <div class="pill-values">
+              CLARIDAD · CONFIANZA · CONTINUIDAD
+            </div>
+            <div class="values-sub">
+              Lo que buscamos para nuestros clientes
+            </div>
+          </div>
+
+          <!-- MISIÓN / VISIÓN -->
+          <div class="row g-4">
+            <div class="col-lg-6 reveal-seq" style="transition-delay: 0ms;">
+
+              <div class="white-card h-100">
+                <h5><i class="fa-solid fa-bullseye me-2"></i>Misión</h5>
+                <p class="mb-0">
+                  Entregar resultados con estándares internacionales que representen soluciones
+                  integrales y rentables, ayudando a nuestros clientes a reducir riesgos
+                  y tomar mejores decisiones.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 reveal-seq" style="transition-delay: 180ms;">
+
+              <div class="white-card h-100">
+                <h5><i class="fa-solid fa-eye me-2"></i>Visión</h5>
+                <p class="mb-0">
+                  Simplificar la vida de nuestros clientes, asegurando que su información
+                  y operación estén protegidas con acompañamiento cercano y enfoque práctico.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+</section>
+
+
+
+
+
+
+  <!-- RESULTADOS / BENEFICIOS -->
+  <section id="resultados" class="tech-bg">
+    <div class="container tech-content">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 reveal-block text-center">
+          <h2 class="glow-title mb-2">RESULTADOS Y BENEFICIOS</h2>
+          <div class="title-line"></div>
+          <p class="text-muted-2 mt-3 mb-5" style="font-weight:700; line-height:1.7;">
+            Lo que la dirección obtiene al implementar una estrategia integral de Protección de Datos.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4 reveal-block">
+          <div class="card-soft h-100 text-center">
+            <div class="feature-ico mx-auto mb-3"><i class="fa-solid fa-shield"></i></div>
+            <h5 style="font-weight:980;">Reducción de riesgos</h5>
+            <p class="text-muted-2" style="font-weight:650;">
+              Menos incidentes y contingencias que impactan operación, finanzas y reputación.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 reveal-block">
+          <div class="card-soft h-100 text-center">
+            <div class="feature-ico mx-auto mb-3"><i class="fa-solid fa-chart-line"></i></div>
+            <h5 style="font-weight:980;">Continuidad del negocio</h5>
+            <p class="text-muted-2" style="font-weight:650;">
+              Operación estable incluso ante incidentes, fallas o eventos inesperados.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 reveal-block">
+          <div class="card-soft h-100 text-center">
+            <div class="feature-ico mx-auto mb-3"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h5 style="font-weight:980;">Cumplimiento y confianza</h5>
+            <p class="text-muted-2" style="font-weight:650;">
+              Mejor preparación para auditorías, contratos y requisitos de terceros.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 reveal-block">
+          <div class="card-soft h-100 text-center">
+            <div class="feature-ico mx-auto mb-3"><i class="fa-solid fa-coins"></i></div>
+            <h5 style="font-weight:980;">Control de costos</h5>
+            <p class="text-muted-2" style="font-weight:650;">
+              Prevención de pérdidas, paros, multas y gastos imprevistos por incidentes.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 reveal-block">
+          <div class="card-soft h-100 text-center">
+            <div class="feature-ico mx-auto mb-3"><i class="fa-solid fa-people-group"></i></div>
+            <h5 style="font-weight:980;">Mejor toma de decisiones</h5>
+            <p class="text-muted-2" style="font-weight:650;">
+              Priorización clara: qué atender primero y cómo invertir con enfoque a negocio.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 reveal-block">
+          <div class="card-soft h-100 text-center">
+            <div class="feature-ico mx-auto mb-3"><i class="fa-solid fa-handshake"></i></div>
+            <h5 style="font-weight:980;">Imagen y reputación</h5>
+            <p class="text-muted-2" style="font-weight:650;">
+              Confianza del mercado al demostrar control y responsabilidad sobre la información.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-10 reveal-block">
+          <div class="panel p-4 text-center">
+            <p style="font-weight:780; line-height:1.85; font-size:1.05rem;">
+              Nuestro objetivo no es “vender tecnología”, sino ayudar a la dirección a
+              <strong>proteger el negocio</strong>, priorizar inversiones y reducir incertidumbre.
+            </p>
+            <a href="#contacto" class="btn btn-primary btn-lg mt-2">
+              Solicitar diagnóstico ejecutivo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="diagnostico" class="tech-bg">
+  <div class="container tech-content">
+    <div class="row justify-content-center">
+      <div class="col-lg-12 reveal-block text-center">
+        <h2 class="glow-title mb-2">DIAGNÓSTICO EXPRESS</h2>
+        <div class="title-line"></div>
+        <p class="text-muted-2 mt-3 mb-5" style="font-weight:700; line-height:1.7;">
+          Responde 6 preguntas y obtén un resumen ejecutivo en 30 segundos.
+        </p>
+      </div>
+    </div>
+
+    <div class="exec-hook reveal-block">
+      <div class="exec-hook-head">
+        <div class="exec-badge">
+        
+          Seleciona las opciones 
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="text-muted-2 small" id="execStepLabel" style="font-weight:750;">Paso 1 de 6</span>
+          <div class="exec-progress" aria-label="Progreso del diagnóstico">
+            <span id="execProgress"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exec-hook-body">
+        <!-- LEFT: questions -->
+        <div>
+          <div class="exec-q" id="execQuestion">Cargando…</div>
+          <div class="exec-choices" id="execChoices"></div>
+
+          <div class="exec-nav">
+            <button class="btn btn-ghost" id="execPrev" type="button">
+              <i class="fa-solid fa-arrow-left me-2"></i>Anterior
+            </button>
+            <button class="btn btn-primary" id="execNext" type="button">
+              Siguiente<i class="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+            <button class="btn btn-ghost" id="execReset" type="button" style="margin-left:auto;">
+              <i class="fa-solid fa-rotate me-2"></i>Reiniciar
+            </button>
+          </div>
+
+          <div class="exec-mini">
+            *Esto no es una auditoría técnica; es una guía ejecutiva para priorizar acciones.
+          </div>
+        </div>
+
+        <!-- RIGHT: result -->
+        <aside class="exec-side">
+          <div class="exec-kpi">
+            <div>
+              <div class="text-muted-2 small" style="font-weight:800;">Nivel de exposición</div>
+              <strong id="execLevelText">—</strong>
+            </div>
+            <span class="exec-pill pill-mid" id="execPill" style="display:none;">—</span>
+          </div>
+
+          <div class="exec-reco" id="execReco">
+            Responde las preguntas para generar un resumen ejecutivo y recomendaciones.
+          </div>
+
+          <div class="exec-actions">
+            <a class="btn btn-primary" href="#contacto" id="execCta">
+              <i class="fa-solid fa-calendar-check me-2"></i>Agendar diagnóstico
+            </a>
+            <a class="btn btn-ghost" href="https://wa.me/525575351237" target="_blank" rel="noopener" id="execWa">
+              <i class="fa-brands fa-whatsapp me-2"></i>WhatsApp
+            </a>
+          </div>
+
+          <div class="exec-mini" id="execSummaryMini"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- SERVICIOS -->
+  <section id="productos">
+    <div class="container">
+      <div class="services-hero reveal-block">
+        <div class="services-wrap">
+          <div class="services-title">
+            <div class="badge-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="text-center text-md-start">
+              SERVICIOS
+              <small>Lista de algunos de nuestros servicios</small>
+            </div>
+          </div>
+
+          <ul class="service-list">
+            <li class="service-item reveal" style="transition-delay: 0ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-user-ninja"></i></div>
+                <div>
+                  <div class="service-text">PentTest (Ethical Hacker)</div>
+                  <p class="service-desc">Evaluación controlada para identificar puntos débiles antes de que lo haga un atacante.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 60ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-industry"></i></div>
+                <div>
+                  <div class="service-text">Ciberseguridad de infraestructura crítica</div>
+                  <p class="service-desc">Protección de sistemas clave para mantener la operación estable y disponible.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 120ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-network-wired"></i></div>
+                <div>
+                  <div class="service-text">Seguridad en la red y en la nube</div>
+                  <p class="service-desc">Controles para acceso seguro, visibilidad y reducción de incidentes en conectividad y servicios cloud.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 180ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-microchip"></i></div>
+                <div>
+                  <div class="service-text">Seguridad IoT y seguridad de datos</div>
+                  <p class="service-desc">Protección de dispositivos conectados y de la información sensible en toda la organización.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 240ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-laptop-code"></i></div>
+                <div>
+                  <div class="service-text">Seguridad de aplicaciones y puntos de conexión</div>
+                  <p class="service-desc">Mejoras para reducir fallas y riesgos en sistemas, equipos y accesos de usuarios.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 300ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div>
+                  <div class="service-text">Continuidad / recuperación (Equipo SWAT)</div>
+                  <p class="service-desc">Plan y respuesta rápida para retomar operaciones ante incidentes o contingencias.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 360ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-clipboard-check"></i></div>
+                <div>
+                  <div class="service-text">Normatividad interna y gubernamental</div>
+                  <p class="service-desc">Políticas y lineamientos para cumplir requerimientos, auditorías y buenas prácticas.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 420ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-lock"></i></div>
+                <div>
+                  <div class="service-text">Seguro de protección de datos vs robo de información</div>
+                  <p class="service-desc">Apoyo para reducir impacto financiero y definir cobertura ante incidentes.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 480ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-server"></i></div>
+                <div>
+                  <div class="service-text">Data Center Nephos IT</div>
+                  <p class="service-desc">Infraestructura para alojar y operar servicios con control, respaldo y disponibilidad.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="service-item reveal" style="transition-delay: 540ms;">
+              <div class="service-bar">
+                <div class="service-ico"><i class="fa-solid fa-trash-can"></i></div>
+                <div>
+                  <div class="service-text">Borrado seguro y chatarrización</div>
+                  <p class="service-desc">Eliminación certificable de información y disposición segura de activos digitales y físicos.</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- MARCAS / LOGOS -->
+<section id="marcas" class="tech-bg">
+  <div class="container tech-content">
+    <div class="row justify-content-center">
+      <div class="col-lg-12 text-center reveal-block">
+        <h2 class="glow-title mb-2">TECNOLOGÍAS Y MARCAS</h2>
+        <div class="title-line"></div>
+        <p class="text-muted-2 mt-3 mb-4" style="font-weight:700;">
+          Trabajamos con plataformas y soluciones líderes a nivel mundial.
+        </p>
+      </div>
+    </div>
+
+    <div class="panel p-4 reveal-block">
+      <div class="swiper marcas-swiper">
+        <div class="swiper-wrapper">
+
+
+                  <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+         <img src="logos/0_0XqS3oQbLgBhWQl7.webp"alt="AirCrack">
+    <span class="brand-name">AirCrack</span>
+  </div>
+</div>
+
+
+                 <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+         <img src="logos/hillstone.png"alt="Hillstone">
+    <span class="brand-name"></span>
+  </div>
+</div>
+                 <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+         <img src="logos/nagios.png"alt="Nagios">
+    <span class="brand-name"></span>
+  </div>
+</div>
+
+          <div class="swiper-slide brand-item">
+            <img src="logos/picus.png" alt="PICUS">
+          </div>
+
+      <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+          <img src="logos/apple-logo-apple-icon-free-free-vector.webp" alt="Apple">
+    <span class="brand-name">Apple</span>
+  </div>
+</div>
+
+   <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+          <img src="logos/hp.png" alt="HP">
+    <span class="brand-name"></span>
+  </div>
+</div>
+
+   <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+          <img src="logos/micro.png" alt="Microsoft">
+    <span class="brand-name">Microsoft</span>
+  </div>
+</div>
+
+
+        <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+         <img src="logos/cisco.png" alt="Cisco">
+    <span class="brand-name">Cisco</span>
+  </div>
+</div>
+
+        <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+         <img src="logos/Wireshark.png" alt="Wireshark">
+    <span class="brand-name">Wireshark</span>
+  </div>
+</div>
+
+        <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+         <img src="logos/crypto.png" alt="Cryptography">
+    <span class="brand-name">Cryptography</span>
+  </div>
+</div>
+
+          <div class="swiper-slide brand-item">
+            <img src="logos/delinea.png" alt="Delinea">
+          </div>
+
+          <div class="swiper-slide brand-item">
+            <img src="logos/Dell-Emblem.webp" alt="Dell">
+          </div>
+  <div class="swiper-slide brand-item">
+            <img src="logos/checkmar.jpg" alt="checkmarx">
+          </div>
+         <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+    <img src="logos/fortinet.png" alt="Fortinet">
+    <span class="brand-name">Fortinet</span>
+  </div>
+</div>
+          <div class="swiper-slide brand-item">
+            <img src="logos/hackerone.jpg" alt="HackerOne">
+          </div>
+              <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+    <img src="logos/Nephos.png" alt="Nephos">
+    <span class="brand-name"></span>
+  </div>
+</div>
+
+
+              <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+             <img src="logos/logo-amazon-web-services-1024.webp" alt="AWS">
+    <span class="brand-name">AWS</span>
+  </div>
+</div>
+        <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+     <img src="logos/logo-anonsurf-portada.webp" alt="Anonsurf">
+    <span class="brand-name">Anonsurf</span>
+  </div>
+</div>
+
+
+        <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+     <img src="logos/pentera.png" alt="Pentera">
+    <span class="brand-name"></span>
+  </div>
+</div>
+
+
+       <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+     <img src="logos/sonic.png" alt="Sonicwall">
+    <span class="brand-name"></span>
+  </div>
+</div>
+
+
+          <div class="swiper-slide brand-item">
+            <img src="logos/Microsoft-Azure.webp" alt="Microsoft Azure">
+          </div>
+
+          <div class="swiper-slide brand-item">
+            <img src="logos/Nutanix-Logo.wine.webp" alt="Nutanix">
+          </div>
+
+          <div class="swiper-slide brand-item">
+            <img src="logos/radware.png" alt="Radware">
+          </div>
+
+    
+
+            <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+        <img src="logos/zscaler.png" alt="Zscaler">
+    <span class="brand-name">Zscaler</span>
+  </div>
+</div>
+
+            <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+        <img src="logos/stellar.png" alt="Stellar">
+    <span class="brand-name">Stellar Cyber</span>
+  </div>
+</div>
+
+
+          <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+        <img src="logos/sentinelone.jpg" alt="SentinelOne">
+    <span class="brand-name">SentinelOne</span>
+  </div>
+</div>
+
+          <div class="swiper-slide brand-item">
+  <div class="brand-wrap">
+        <img src="logos/trellix.jpg" alt="Trellix">
+    <span class="brand-name">Trellix</span>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="tech-bg">
+    <div class="container tech-content">
+      <div class="row g-4 text-center text-lg-start">
+        <div class="col-lg-5 reveal-block">
+          <div class="panel p-4 h-100">
+            <h2 class="glow-title mb-2">Contacto</h2>
+            <div class="title-line mx-auto mx-lg-0" style="margin-left:0;"></div>
+            <p class="text-muted-2 mt-3 mb-3" style="font-weight:700;">
+              Solicita un diagnóstico ejecutivo y definimos prioridades, riesgos y siguientes pasos.
+            </p>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-primary btn-lg" href="https://wa.me/525575351237" target="_blank" rel="noopener">
+                <i class="fa-brands fa-whatsapp me-2"></i>WhatsApp
+              </a>
+              <a class="btn btn-ghost btn-lg" href="mailto:info@compropolis.mx">
+                <i class="fa-solid fa-envelope me-2"></i>info@compropolis.mx
+              </a>
+            </div>
+
+            <p class="text-muted-2 small mt-3 mb-0">
+         
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-7 reveal-block text-start">
+          <div class="panel p-4 h-100">
+            <h3 class="h4 fw-bold mb-3">Solicitar diagnóstico</h3>
+            <form class="row g-3"
+      action="mailto:info@compropolis.mx"
+      method="POST"
+      enctype="text/plain">
+
+              <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input class="form-control" type="text"  name="Nombre"   placeholder="Tu nombre" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Empresa</label>
+                <input class="form-control" type="text" name="Empresa" placeholder="Tu empresa" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Correo</label>
+                <input class="form-control" type="email"  name="Correo"  placeholder="correo@dominio.com" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Teléfono</label>
+                <input class="form-control" type="tel"  name="Telefono" placeholder="+52..." />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Servicio</label>
+                <select class="form-select" name="Servicio">
+                  <option>PentTest (Ethical Hacker)</option>
+                  <option>Ciberseguridad de infraestructura crítica</option>
+                  <option>Seguridad en la red y en la nube</option>
+                  <option>Seguridad IoT y seguridad de datos</option>
+                  <option>Seguridad de aplicaciones y puntos de conexión</option>
+                  <option>Continuidad / recuperación (Equipo SWAT)</option>
+                  <option>Normatividad interna y gubernamental</option>
+                  <option>Seguro de protección de datos vs robo de información</option>
+                  <option>Data Center Nephos IT</option>
+                  <option>Borrado seguro y chatarrización</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Mensaje</label>
+                <textarea class="form-control" name="Mensaje" rows="4" placeholder="Describe tu necesidad..." required></textarea>
+
+              </div>
+
+              <div class="col-12">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="privacidad" required>
+    <label class="form-check-label text-muted-2 small" for="privacidad">
+      He leído y acepto el
+      <a href="aviso-de-privacidad.html" target="_blank" class="link-underline">
+        Aviso de Privacidad
+      </a>.
+    </label>
+  </div>
+</div>
+
+              <div class="col-12 d-flex flex-wrap gap-2 align-items-center justify-content-center justify-content-md-start">
+                <button class="btn btn-primary btn-lg" type="submit">
+                  <i class="fa-solid fa-paper-plane me-2"></i>Enviar
+                </button>
+                <span class="text-muted-2 small"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between gap-2 text-center text-md-start">
+      <div>
+        <div class="fw-bold d-flex align-items-center gap-2">
+  <img src="logo2026.png" alt="Compropolis" width="26" height="26">
+  COMPROPOLIS
+</div>
+
+        <div class="text-muted-2 small">Protección de Datos • Identidad Digital • Ciberseguridad</div>
+      </div>
+      <div class="text-muted-2 small">© <span id="year"></span> Compropolis. Todos los derechos reservados.</div>
+    <a href="aviso-de-privacidad.html" class="link-underline small">
+  Aviso de Privacidad
+</a>
+
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    new Swiper('.hero-swiper', {
+      loop: true,
+      speed: 700,
+      autoplay: { delay: 5500, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    });
+
+    // Scroll reveal: secciones + items
+    
+    const allReveal = document.querySelectorAll('.reveal-block, .reveal, .reveal-seq');
+
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.14 });
+
+    allReveal.forEach(el => io.observe(el));
+  </script>
+  <script>
+  // ===== Executive Hook: Diagnóstico Express (No técnico / Directivo) =====
+  (function () {
+    const questions = [
+      {
+        q: "¿Qué tan crítica es la información para tu operación?",
+        choices: [
+          { label: "Baja", score: 1 },
+          { label: "Media", score: 2 },
+          { label: "Alta", score: 3 }
+        ]
+      },
+      {
+        q: "¿Qué tanto depende tu negocio de sistemas/servicios digitales?",
+        choices: [
+          { label: "Poco", score: 1 },
+          { label: "Moderado", score: 2 },
+          { label: "Mucho", score: 3 }
+        ]
+      },
+      {
+        q: "¿Tienen políticas claras y responsables definidos?",
+        choices: [
+          { label: "Sí", score: 1 },
+          { label: "Parcial", score: 2 },
+          { label: "No", score: 3 }
+        ]
+      },
+      {
+        q: "¿Cuántos proveedores/terceros manejan datos o accesos?",
+        choices: [
+          { label: "Pocos", score: 1 },
+          { label: "Varios", score: 2 },
+          { label: "Muchos", score: 3 }
+        ]
+      },
+      {
+        q: "¿Qué tan preparado está el negocio para una contingencia (paro/incident)?",
+        choices: [
+          { label: "Preparado", score: 1 },
+          { label: "En proceso", score: 2 },
+          { label: "No preparado", score: 3 }
+        ]
+      },
+      {
+        q: "¿Qué tan frecuente es el cambio (crecimiento, aperturas, nuevos sistemas)?",
+        choices: [
+          { label: "Bajo", score: 1 },
+          { label: "Medio", score: 2 },
+          { label: "Alto", score: 3 }
+        ]
+      }
+    ];
+
+    const elQ = document.getElementById("execQuestion");
+    const elChoices = document.getElementById("execChoices");
+    const elPrev = document.getElementById("execPrev");
+    const elNext = document.getElementById("execNext");
+    const elReset = document.getElementById("execReset");
+    const elProgress = document.getElementById("execProgress");
+    const elStepLabel = document.getElementById("execStepLabel");
+
+    const elLevel = document.getElementById("execLevelText");
+    const elPill = document.getElementById("execPill");
+    const elReco = document.getElementById("execReco");
+    const elWa = document.getElementById("execWa");
+    const elMini = document.getElementById("execSummaryMini");
+
+    if (!elQ || !elChoices) return; // si no insertaron el HTML, no rompe nada
+
+    let step = 0;
+    const answers = Array(questions.length).fill(null);
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function render() {
+      const total = questions.length;
+      elStepLabel.textContent = `Paso ${step + 1} de ${total}`;
+      elProgress.style.width = `${((step) / (total - 1)) * 100}%`;
+
+      const { q, choices } = questions[step];
+      elQ.textContent = q;
+
+      elChoices.innerHTML = "";
+      choices.forEach((c, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice-btn";
+        btn.textContent = c.label;
+
+        if (answers[step] === idx) btn.classList.add("is-selected");
+
+        btn.addEventListener("click", () => {
+          answers[step] = idx;
+          // re-render choices selection
+          [...elChoices.children].forEach(x => x.classList.remove("is-selected"));
+          btn.classList.add("is-selected");
+
+          // update results live
+          updateResult();
+
+          // micro "nudge": si ya respondió, auto-activar siguiente
+          elNext.focus({ preventScroll: true });
+        });
+
+        elChoices.appendChild(btn);
+      });
+
+      elPrev.disabled = step === 0;
+      elNext.textContent = step === total - 1 ? "Ver resultado" : "Siguiente";
+      updateResult();
+    }
+
+    function getScore() {
+      let s = 0;
+      let answered = 0;
+      for (let i = 0; i < answers.length; i++) {
+        const a = answers[i];
+        if (a === null) continue;
+        s += questions[i].choices[a].score;
+        answered++;
+      }
+      return { score: s, answered };
+    }
+
+    function levelFrom(score, totalAnswered) {
+      // Normaliza a escala 1..3 en base al promedio
+      if (totalAnswered === 0) return { label: "—", pill: null, cls: null, avg: null };
+      const avg = score / totalAnswered;
+
+      if (avg <= 1.6) return { label: "Bajo", pill: "Bajo", cls: "pill-low", avg };
+      if (avg <= 2.35) return { label: "Medio", pill: "Medio", cls: "pill-mid", avg };
+      return { label: "Alto", pill: "Alto", cls: "pill-high", avg };
+    }
+
+    function updateResult() {
+      const { score, answered } = getScore();
+      const total = questions.length;
+
+      // Progreso real (por respuestas)
+      const pctAnswered = Math.round((answered / total) * 100);
+      // mini: avanzar progres bar suavemente, pero sin pelear con step
+      // se puede usar ancho secundario si quieres; mantenemos simple.
+
+      const lvl = levelFrom(score, answered);
+      if (!lvl.pill) {
+        elLevel.textContent = "—";
+        elPill.style.display = "none";
+        elReco.textContent = "Responde las preguntas para generar un resumen ejecutivo y recomendaciones.";
+        elMini.textContent = "";
+        elWa.href = "https://wa.me/525575351237";
+        return;
+      }
+
+      elLevel.textContent = lvl.label;
+      elPill.style.display = "inline-flex";
+      elPill.textContent = lvl.pill;
+
+      elPill.classList.remove("pill-low","pill-mid","pill-high");
+      elPill.classList.add(lvl.cls);
+
+      // Recomendaciones ejecutivas por nivel
+      let reco = "";
+      let bullets = [];
+
+      if (lvl.label === "Bajo") {
+        reco = "Tu escenario sugiere una exposición controlada. La prioridad es mantener disciplina y evidencias.";
+        bullets = [
+          "Definir responsables y políticas simples (quién decide, qué se aprueba).",
+          "Revisión trimestral de accesos y proveedores.",
+          "Plan básico de continuidad (qué hacer si algo se detiene)."
+        ];
+      } else if (lvl.label === "Medio") {
+        reco = "Hay señales de exposición moderada. Conviene priorizar acciones para reducir riesgo y evitar costos futuros.";
+        bullets = [
+          "Diagnóstico ejecutivo: riesgos principales + plan de 90 días.",
+          "Controles clave por áreas (accesos, respaldos, proveedores).",
+          "Preparación para auditorías/contratos (evidencias y políticas)."
+        ];
+      } else {
+        reco = "El perfil indica alta exposición. Recomendamos actuar con prioridad para proteger continuidad y reputación.";
+        bullets = [
+          "Evaluación inmediata de riesgos críticos y plan de contención.",
+          "Estrategia de continuidad/recuperación con roles y tiempos.",
+          "Gobernanza: políticas, responsabilidades y seguimiento a dirección."
+        ];
+      }
+
+      const bulletsText = bullets.map(b => `• ${b}`).join("\n");
+      elReco.textContent = reco;
+
+      elMini.textContent =
+        `Avance: ${pctAnswered}% | Resumen: Exposición ${lvl.label}. ` +
+        `Si quieres, te enviamos un plan ejecutivo (prioridades + siguientes pasos).`;
+
+      // WhatsApp prefilleado con el resultado (gancho)
+      const msg =
+        `Hola, quiero un diagnóstico ejecutivo.\n` +
+        `Resultado (Diagnóstico Express): Exposición ${lvl.label}.\n` +
+        `Respuestas completadas: ${answered}/${total}.\n` +
+        `Me interesa: ${bullets.join(" | ")}\n` +
+        `¿Podemos agendar una llamada?`;
+
+      elWa.href = `https://wa.me/525575351237?text=${encodeURIComponent(msg)}`;
+    }
+
+    function next() {
+      // si está en el último paso: mostrar resultado (solo scroll a resumen)
+      if (step === questions.length - 1) {
+        // obliga a tener respuesta en el paso actual para "cerrar"
+        if (answers[step] === null) {
+          // mini feedback sin alerts (simple shake)
+          elQ.style.transform = "translateX(-4px)";
+          setTimeout(() => elQ.style.transform = "", 120);
+          return;
+        }
+        updateResult();
+        // scroll suave al panel derecho (móvil)
+        document.getElementById("diagnostico")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      // para avanzar: pide respuesta
+      if (answers[step] === null) {
+        elQ.style.transform = "translateX(-4px)";
+        setTimeout(() => elQ.style.transform = "", 120);
+        return;
+      }
+
+      step = clamp(step + 1, 0, questions.length - 1);
+      render();
+    }
+
+    function prev() {
+      step = clamp(step - 1, 0, questions.length - 1);
+      render();
+    }
+
+    function reset() {
+      for (let i = 0; i < answers.length; i++) answers[i] = null;
+      step = 0;
+      render();
+    }
+
+    elNext.addEventListener("click", next);
+    elPrev.addEventListener("click", prev);
+    elReset.addEventListener("click", reset);
+
+    // Render inicial
+    render();
+  })();
+</script>
+
+<script>
+new Swiper('.marcas-swiper', {
+  loop: true,
+  speed: 3000,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false
+  },
+  slidesPerView: 2,
+  spaceBetween: 30,
+  breakpoints: {
+    576: { slidesPerView: 3 },
+    768: { slidesPerView: 4 },
+    992: { slidesPerView: 5 },
+    1200:{ slidesPerView: 6 }
+  }
+});
+</script>
+<script>
+/* ===== CONTADOR ANIMADO ===== */
+(function(){
+  const counters = document.querySelectorAll('.counter');
+
+  const animateCounter = (el) => {
+    const target = +el.dataset.target;
+    let current = 0;
+    const increment = Math.max(1, Math.ceil(target / 40));
+
+    const tick = () => {
+      current += increment;
+      if (current >= target) {
+        el.textContent = target;
+      } else {
+        el.textContent = current;
+        requestAnimationFrame(tick);
+      }
+    };
+    tick();
+  };
+
+  const ioCounter = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(e.target);
+        ioCounter.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+
+  counters.forEach(c => ioCounter.observe(c));
+})();
+</script>
+
+
+
+</body>
+</html>
